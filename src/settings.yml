@@ -6,10 +6,10 @@ static_data: ''
 polling_verb: post
 polling_url: |
   {{ matomo_base_url }}/?module=API&format=JSON&method=API.getMatomoVersion
-  {{ matomo_base_url }}/?module=API&method=VisitsSummary.get&idSite={{ matomo_site_id }}&period=day&date=last30&format=JSON
+  {{ matomo_base_url }}/?module=API&method=VisitsSummary.get&idSite={{ matomo_site_id }}&period=day&date={{ matomo_date_range }}&format=JSON
   {{ matomo_base_url }}/?module=API&method=SitesManager.getSiteFromId&idSite={{ matomo_site_id }}&format=JSON
 polling_headers: ''
-polling_body: 'token_auth={{ matomo_api_key }}'
+polling_body: "token_auth={{ matomo_api_key }}"
 id: 97234
 custom_fields:
 - keyname: author_bio
@@ -35,5 +35,25 @@ custom_fields:
   placeholder: '1'
   name: Site ID
   description: The integer ID of the desired site for reporting
+- keyname: matomo_date_range
+  field_type: dropdown
+  name: Date Range
+  description: Time period for analytics data
+  default_value: last30
+  options:
+    - value: last7
+      label: Last 7 days
+    - value: last14
+      label: Last 14 days
+    - value: last30
+      label: Last 30 days
+    - value: last90
+      label: Last 90 days
+    - value: lastWeek
+      label: Previous week
+    - value: lastMonth
+      label: Previous month
+    - value: lastYear
+      label: Previous year
 name: Matomo Analytics
 refresh_interval: 1440
