@@ -2,6 +2,17 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartkick@5.0.1/dist/chartkick.min.js"></script>
 
+<!-- Date range label mapping template -->
+{% assign date_range_labels = "last7:Last 7 days,last14:Last 14 days,last30:Last 30 days,last90:Last 90 days,lastWeek:Previous week,lastMonth:Previous month,lastYear:Previous year" | split: "," %}
+{% assign date_range_display = "" %}
+{% for mapping in date_range_labels %}
+  {% assign pair = mapping | split: ":" %}
+  {% if pair[0] == trmnl.plugin_settings.custom_fields_values.matomo_date_range %}
+    {% assign date_range_display = pair[1] %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
 <!-- Calculate totals from real data dynamically -->
 {% assign total_pageviews = 0 %}
 {% assign total_visitors = 0 %}
@@ -24,7 +35,7 @@
   {% assign avg_time_seconds = total_time | divided_by: total_visits %}
   {% assign minutes = avg_time_seconds | divided_by: 60 | floor %}
   {% assign seconds = avg_time_seconds | modulo: 60 | floor %}
-  
+
   {% if minutes > 0 %}
     {% if seconds > 0 %}
       {% assign time_display = minutes | append: "m " | append: seconds | append: "s" %}

@@ -29,12 +29,12 @@ custom_fields:
   name: Matomo Base URL
   description: The URL of your Matomo installation
   placeholder: https://analytics.example.com/matomo
-  help_text: Please include http:// or https://
+  help_text: Please include the full URL with <tt>http://</tt> or <tt>https://</tt>
 - keyname: matomo_site_id
   field_type: number
   placeholder: '1'
   name: Site ID
-  description: The integer ID of the desired site for reporting
+  description: The integer ID of the desired site for reporting. <a href="https://matomo.org/faq/general/faq_19212/"  class="underline" target="_blank">Learn More</a>
 - keyname: matomo_date_range
   field_type: select
   name: Date Range
