@@ -29,7 +29,6 @@ custom_fields:
   name: Matomo Base URL
   description: The URL of your Matomo installation
   placeholder: https://analytics.example.com/matomo
-  help_text: Please include the full URL with <tt>http://</tt> or <tt>https://</tt>
 - keyname: matomo_site_id
   field_type: number
   placeholder: '1'
