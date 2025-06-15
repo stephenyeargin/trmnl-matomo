@@ -1,0 +1,108 @@
+<div class="view view--full">
+  <div class="layout layout--col gap--space-between">
+    <div class="grid grid--cols-3">
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
+          <span class="label">Pageviews</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--tnums">{{ total_visitors | number_with_delimiter }}</span>
+          <span class="label">Visitors</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--tnums">{{ time_display }}</span>
+          <span class="label">Time on Site</span>
+        </div>
+      </div>
+    </div>
+    <div id="page-view-chart" style="width: 100%"></div>
+  </div>
+
+  <div class="title_bar">
+    <img class="image image-stroke image-stroke--small" src="https://cdn.worldvectorlogo.com/logos/matomo-2.svg" width="28" height="28" />
+    <span class="title">{{ IDX_2.name }}</span>
+    <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // Build chart data dynamically from IDX_1 data
+  var data = [
+    {% for item in IDX_1 %}
+      {% if item[1] == empty %}
+        ["{{ item[0] }}", 0],
+      {% else %}
+        ["{{ item[0] }}", {{ item[1].nb_actions | default: 0 }}],
+      {% endif %}
+    {% endfor %}
+  ];
+
+  // recommended configs to achieve the TRMNL Framework aesthetic
+  var createChart = function() {
+    new Chartkick["LineChart"](
+    "page-view-chart",
+    data,
+    {
+      adapter: "highcharts", // chartjs, google, etc available
+      prefix: "",
+      thousands: ",",
+      points: false,
+      colors: ["black"],
+      curve: true,
+      library: {
+        chart: {
+          height: 260
+        },
+        plotOptions: {
+          series: {
+            animation: false,
+            lineWidth: 4
+          }
+        },
+        yAxis: {
+          labels: {
+            style: {
+              fontSize: "16px",
+              color:"#000000"
+            }
+          },
+          gridLineDashStyle: "shortdot",
+          gridLineWidth: 1,
+          gridLineColor: "#000000",
+          tickAmount: 5
+        },
+        xAxis: {
+          type: "daytime",
+          labels: {
+            style: {
+              fontSize: "16px",
+              color: "#000000"
+            }
+          },
+          lineWidth: 0,
+          gridLineDashStyle: "dot",
+          tickWidth: 1,
+          tickLength: 0,
+          gridLineWidth: 1,
+          gridLineColor: "#000000",
+          tickPixelInterval: 120
+        }
+      }
+    });
+  };
+
+  // ensure your chart loads before plugin render is generated
+  if ("Chartkick" in window) {
+    createChart();
+  } else {
+    window.addEventListener("chartkick:load", createChart, true);
+  }
+</script>

@@ -1,0 +1,104 @@
+<div class="view view--half-vertical">
+  <div class="layout layout--col gap--space-between">
+    <div class="grid grid--cols-2">
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
+          <span class="label">Pageviews</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--tnums">{{ total_visitors | number_with_delimiter }}</span>
+          <span class="label">Visitors</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--tnums">{{ time_display }}</span>
+          <span class="label">Time on Site</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 100%;">
+      <div id="half-v-chart" style="width: 100%; height: 180px;"></div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // Build chart data dynamically from IDX_1 data
+  var data = [
+    {% for item in IDX_1 %}
+      {% if item[1] == empty %}
+        ["{{ item[0] }}", 0],
+      {% else %}
+        ["{{ item[0] }}", {{ item[1].nb_actions | default: 0 }}],
+      {% endif %}
+    {% endfor %}
+  ];
+
+  // Vertical layout chart
+  var createChart = function() {
+    new Chartkick["LineChart"](
+    "half-v-chart",
+    data,
+    {
+      adapter: "highcharts",
+      prefix: "",
+      thousands: ",",
+      points: false,
+      colors: ["black"],
+      curve: true,
+      library: {
+        chart: {
+          height: 180
+        },
+        plotOptions: {
+          series: {
+            animation: false,
+            lineWidth: 3
+          }
+        },
+        yAxis: {
+          labels: {
+            style: {
+              fontSize: "14px",
+              color:"#000000"
+            }
+          },
+          gridLineDashStyle: "shortdot",
+          gridLineWidth: 1,
+          gridLineColor: "#000000",
+          tickAmount: 4
+        },
+        xAxis: {
+          type: "daytime",
+          labels: {
+            style: {
+              fontSize: "14px",
+              color: "#000000"
+            }
+          },
+          lineWidth: 0,
+          gridLineDashStyle: "dot",
+          tickWidth: 1,
+          tickLength: 0,
+          gridLineWidth: 1,
+          gridLineColor: "#000000",
+          tickPixelInterval: 100
+        }
+      }
+    });
+  };
+
+  if ("Chartkick" in window) {
+    createChart();
+  } else {
+    window.addEventListener("chartkick:load", createChart, true);
+  }
+</script>
