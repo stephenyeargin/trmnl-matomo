@@ -16,7 +16,7 @@
 <!-- Calculate totals from real data dynamically -->
 {% assign total_pageviews = 0 %}
 {% assign total_visitors = 0 %}
-{% assign total_time = 0 %}
+{% assign total_time_length = 0 %}
 {% assign total_visits = 0 %}
 
 <!-- Loop through all dates in IDX_1 to calculate totals -->
@@ -24,7 +24,7 @@
   {% if item[1] != empty and item[1].nb_actions %}
     {% assign total_pageviews = total_pageviews | plus: item[1].nb_actions %}
     {% assign total_visitors = total_visitors | plus: item[1].nb_uniq_visitors %}
-    {% assign total_time = total_time | plus: item[1].avg_time_on_site %}
+    {% assign total_time_length = total_time_length | plus: item[1].sum_visit_length %}
     {% assign total_visits = total_visits | plus: item[1].nb_visits %}
   {% endif %}
 {% endfor %}
@@ -32,7 +32,7 @@
 {% assign avg_time_seconds = 0 %}
 {% assign time_display = "0s" %}
 {% if total_visits > 0 %}
-  {% assign avg_time_seconds = total_time | divided_by: total_visits %}
+  {% assign avg_time_seconds = total_time_length | divided_by: total_visits | floor %}
   {% assign minutes = avg_time_seconds | divided_by: 60 | floor %}
   {% assign seconds = avg_time_seconds | modulo: 60 | floor %}
 

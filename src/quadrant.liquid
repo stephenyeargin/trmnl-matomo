@@ -1,3 +1,9 @@
+{%
+#################
+# Metrics
+#################
+%}
+{% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'metrics' %}
 <div class="view">
   <div class="layout layout--col gap--space-between">
     <div style="width: 100%;">
@@ -29,3 +35,39 @@
     </div>
   </div>
 </div>
+{% endif %}
+
+{%
+#################
+# Landing Pages
+#################
+%}
+{% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'landing_pages' %}
+<div class="view">
+  <div class="layout layout--col gap--space-between">
+    <div class="text--center">
+      <div class="title title--small">Top Landing Pages</div>
+      <span class="description">{{ IDX_2.name }} &bull; {{ date_range_display }}</span>
+    </div>
+
+    <table class="table table--condensed">
+      <thead>
+        <tr>
+          <th class="text--left" style="width:55%"><span class="label label--small">Path</span></th>
+          <th class="text--right"><span class="label label--small">Pageviews</span></th>
+          <th class="text--right"><span class="label label--small">Visits</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for page in IDX_3.data limit: 5 %}
+          <tr>
+            <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
+            <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
+            <td class="text--right"><span class="value value--xxsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
