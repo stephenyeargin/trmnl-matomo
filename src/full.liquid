@@ -4,39 +4,37 @@
 #################
 %}
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'metrics' %}
-<div class="view">
-  <div class="layout layout--col gap--space-between">
-    <div class="grid grid--cols-3">
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
-          <span class="label">Pageviews</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="value value--tnums">{{ total_visitors | number_with_delimiter }}</span>
-          <span class="label">Visitors</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="value value--tnums">{{ time_display }}</span>
-          <span class="label">Time on Site</span>
-        </div>
+<div class="layout layout--col gap--space-between">
+  <div class="grid grid--cols-3">
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
+        <span class="label">Pageviews</span>
       </div>
     </div>
-    <div id="page-view-chart" style="width: 100%"></div>
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--tnums">{{ total_visitors | number_with_delimiter }}</span>
+        <span class="label">Visitors</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--tnums">{{ time_display }}</span>
+        <span class="label">Time on Site</span>
+      </div>
+    </div>
   </div>
+  <div id="page-view-chart" style="width: 100%"></div>
+</div>
 
-  <div class="title_bar">
-    <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
-    <span class="title">{{ IDX_2.name }}</span>
-    <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
-  </div>
+<div class="title_bar">
+  <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
+  <span class="title">{{ IDX_2.name }}</span>
+  <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
 </div>
 
 <script type="text/javascript">
@@ -120,40 +118,37 @@
 #################
 %}
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'landing_pages' %}
-<div class="view">
-  <div class="layout layout--col gap--space-between">
-    <div class="text--center">
-      <div class="title title--large">Top Landing Pages</div>
-      <span class="description">{{ date_range_display }}</span>
-    </div>
+<div class="layout layout--col gap--space-between">
+  <div class="text--center">
+    <div class="title title--large">Top Landing Pages</div>
+    <span class="description">{{ date_range_display }}</span>
+  </div>
 
-    <table class="table table--condensed">
-      <thead>
+  <table class="table table--condensed">
+    <thead>
+      <tr>
+        <th class="text--left" style="width:60%"><span class="title title--small">Path</span></th>
+        <th class="text--right"><span class="title title--small">Pageviews</span></th>
+        <th class="text--right"><span class="title title--small">Visits</span></th>
+        <th class="text--right"><span class="title title--small">Bounce Rate</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for page in IDX_3.data limit: 10 %}
         <tr>
-          <th class="text--left" style="width:60%"><span class="title title--small">Path</span></th>
-          <th class="text--right"><span class="title title--small">Pageviews</span></th>
-          <th class="text--right"><span class="title title--small">Visits</span></th>
-          <th class="text--right"><span class="title title--small">Bounce Rate</span></th>
+          <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall">{{ page.bounce_rate }}</span></td>
         </tr>
-      </thead>
-      <tbody>
-        {% for page in IDX_3.data limit: 10 %}
-          <tr>
-            <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
-            <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
-            <td class="text--right"><span class="value value--xxsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
-            <td class="text--right"><span class="value value--xxsmall">{{ page.bounce_rate }}</span></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  <div class="title_bar">
-    <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
-    <span class="title">{{ IDX_2.name }}</span>
-    <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
-  </div>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
+<div class="title_bar">
+  <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
+  <span class="title">{{ IDX_2.name }}</span>
+  <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
+</div>
 {% endif %}

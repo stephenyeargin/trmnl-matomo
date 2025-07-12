@@ -4,33 +4,31 @@
 #################
 %}
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'metrics' %}
-<div class="view">
-  <div class="layout layout--col gap--space-between">
-    <div style="width: 100%;">
-      <div class="w-full label label--small">{{ IDX_2.name }} ({{ date_range_display }})</div>
-    </div>
+<div class="layout layout--col gap--space-between">
+  <div style="width: 100%;">
+    <div class="w-full label label--small">{{ IDX_2.name }} ({{ date_range_display }})</div>
+  </div>
 
-    <div class="grid grid--cols-2">
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
-          <span class="label">Pageviews</span>
-        </div>
+  <div class="grid grid--cols-2">
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
+        <span class="label">Pageviews</span>
       </div>
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="value value--tnums">{{ total_visitors | number_with_delimiter }}</span>
-          <span class="label">Visitors</span>
-        </div>
+    </div>
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--tnums">{{ total_visitors | number_with_delimiter }}</span>
+        <span class="label">Visitors</span>
       </div>
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="value value--tnums">{{ time_display }}</span>
-          <span class="label">Time on Site</span>
-        </div>
+    </div>
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--tnums">{{ time_display }}</span>
+        <span class="label">Time on Site</span>
       </div>
     </div>
   </div>
@@ -43,31 +41,29 @@
 #################
 %}
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'landing_pages' %}
-<div class="view">
-  <div class="layout layout--col gap--space-between">
-    <div class="text--center">
-      <div class="title title--small">Top Landing Pages</div>
-      <span class="description">{{ IDX_2.name }} &bull; {{ date_range_display }}</span>
-    </div>
-
-    <table class="table table--condensed">
-      <thead>
-        <tr>
-          <th class="text--left" style="width:55%"><span class="label label--small">Path</span></th>
-          <th class="text--right"><span class="label label--small">Pageviews</span></th>
-          <th class="text--right"><span class="label label--small">Visits</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for page in IDX_3.data limit: 5 %}
-          <tr>
-            <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
-            <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
-            <td class="text--right"><span class="value value--xxsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="layout layout--col gap--space-between">
+  <div class="text--center">
+    <div class="title title--small">Top Landing Pages</div>
+    <span class="description">{{ IDX_2.name }} &bull; {{ date_range_display }}</span>
   </div>
+
+  <table class="table table--condensed">
+    <thead>
+      <tr>
+        <th class="text--left" style="width:55%"><span class="label label--small">Path</span></th>
+        <th class="text--right"><span class="label label--small">Pageviews</span></th>
+        <th class="text--right"><span class="label label--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for page in IDX_3.data limit: 5 %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endif %}
