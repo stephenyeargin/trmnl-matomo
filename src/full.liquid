@@ -28,18 +28,12 @@
       </div>
     </div>
   </div>
-  <div id="{{ chart_id }}" style="width: 100%"></div>
-</div>
-
-<div class="title_bar">
-  <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
-  <span class="title">{{ IDX_2.name }}</span>
-  <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
+  <div id="{{ chart_id }}" class="w--full"></div>
 </div>
 
 <script>
   const chartId = {{ chart_id | json }};
-  createMatomoChart(chartId, 260);
+  createMatomoChart(chartId, 300);
 </script>
 {% endif %}
 
@@ -76,10 +70,10 @@
     </tbody>
   </table>
 </div>
+{% endif %}
 
 <div class="title_bar">
   <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
   <span class="title">{{ IDX_2.name }}</span>
   <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
 </div>
-{% endif %}

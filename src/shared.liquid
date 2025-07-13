@@ -7,6 +7,13 @@
 <!-- Shared chart creation function -->
 <script>
   function createMatomoChart(chartId, height, options = {}) {
+    const rawData = {{ IDX_1 | json }};
+
+    if (rawData.result == 'error' && rawData.message) {
+      document.getElementById(chartId).innerHTML = `<div class="title">Error</div><div class="description clamp--4">${rawData.message}</div>`;
+      return;
+    }
+
     // Build chart data dynamically from IDX_1 data
     var data = [
       {% for item in IDX_1 %}
@@ -127,3 +134,4 @@
     {% assign time_display = seconds | append: "s" %}
   {% endif %}
 {% endif %}
+

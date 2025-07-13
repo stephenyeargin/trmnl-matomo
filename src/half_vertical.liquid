@@ -9,14 +9,14 @@
     <div class="item">
       <div class="meta"></div>
       <div class="content">
-        <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
+        <span class="value value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
         <span class="label">Pageviews</span>
       </div>
     </div>
     <div class="item">
       <div class="meta"></div>
       <div class="content">
-        <span class="value value--tnums">{{ total_visitors | number_with_delimiter }}</span>
+        <span class="value value--tnums" data-value-format="true">{{ total_visitors | number_with_delimiter }}</span>
         <span class="label">Visitors</span>
       </div>
     </div>
@@ -29,15 +29,12 @@
     </div>
   </div>
 
-  <div style="width: 100%;">
-    <div class="w-full label label--small  mb--4">{{ IDX_2.name }} ({{ date_range_display }})</div>
-    <div id="{{ chart_id }}" style="height: 180px;"></div>
-  </div>
+  <div id="{{ chart_id }}" class="w--full"></div>
 </div>
 
 <script>
   const chartId = {{ chart_id | json }};
-  createMatomoChart(chartId, 180);
+  createMatomoChart(chartId, 250);
 </script>
 {% endif %}
 
@@ -63,7 +60,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for page in IDX_3.data limit: 12 %}
+      {% for page in IDX_3.data limit: 10 %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
           <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
@@ -74,3 +71,8 @@
   </table>
 </div>
 {% endif %}
+
+<div class="title_bar">
+  <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
+  <span class="title">{{ IDX_2.name }}</span>
+</div>

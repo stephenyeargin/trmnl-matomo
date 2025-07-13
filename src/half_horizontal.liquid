@@ -4,40 +4,41 @@
 #################
 %}
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'metrics' %}
-<div class="layout gap--space-between">
-  <div class="grid grid--cols-2">
-    <div class="item">
-      <div class="meta"></div>
-      <div class="content">
-        <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
-        <span class="label">Pageviews</span>
-      </div>
-    </div>
-    <div class="item">
-      <div class="meta"></div>
-      <div class="content">
-        <span class="value value--tnums">{{ total_pageviews | number_with_delimiter }}</span>
-        <span class="label">Pageviews</span>
-      </div>
-    </div>
+<div class="layout">
+  <div class="grid grid--cols-4">
+    <div class="col col--span-1 grid grid--cols-2">
       <div class="item">
-      <div class="meta"></div>
-      <div class="content">
-        <span class="value value--tnums">{{ time_display }}</span>
-        <span class="label">Time on Site</span>
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--small value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
+          <span class="label">Pageviews</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--small value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
+          <span class="label">Pageviews</span>
+        </div>
+      </div>
+        <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="value value--small value--tnums">{{ time_display }}</span>
+          <span class="label">Time on Site</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div style="width: 100%;"">
-    <div class="label label--small mb--4">{{ IDX_2.name }} ({{ date_range_display }})</div>
-    <div id="{{ chart_id }}" style="height: 120px;"></div>
+    <div class="col col--span-3">
+      <div id="{{ chart_id }}"></div>
+    </div>
   </div>
 </div>
 
 <script>
   const chartId = {{ chart_id | json }};
-  createMatomoChart(chartId, 120);
+  createMatomoChart(chartId, 170);
 </script>
 {% endif %}
 
@@ -48,11 +49,6 @@
 %}
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'landing_pages' %}
 <div class="layout layout--col gap--space-between">
-  <div class="text--center">
-    <div class="title title--small">Top Landing Pages</div>
-    <span class="description">{{ IDX_2.name }} &bull; {{ date_range_display }}</span>
-  </div>
-
   <table class="table table--condensed">
     <thead>
       <tr>
@@ -75,3 +71,9 @@
   </table>
 </div>
 {% endif %}
+
+<div class="title_bar">
+  <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
+  <span class="title">{{ IDX_2.name }}</span>
+  <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
+</div>

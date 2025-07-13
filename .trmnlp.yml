@@ -10,7 +10,7 @@ watch:
 custom_fields: {
   matomo_base_url: "{{ env.MATOMO_BASE_URL }}",
   matomo_api_key: "{{ env.MATOMO_API_KEY }}",
-  matomo_site_id: "11",
+  matomo_site_id: "9",
   matomo_date_range: "last30",
   matomo_active_view: "metrics" # valid: metrics, landing_pages
 }
