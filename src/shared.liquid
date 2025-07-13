@@ -2,7 +2,88 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartkick@5.0.1/dist/chartkick.min.js"></script>
 
-<!-- Date range label mapping template -->
+{% assign chart_id = "chart-" | append_random %}
+
+<!-- Shared chart creation function -->
+<script>
+  function createMatomoChart(chartId, height, options = {}) {
+    // Build chart data dynamically from IDX_1 data
+    var data = [
+      {% for item in IDX_1 %}
+        {% if item[1] == empty %}
+          ["{{ item[0] }}", 0],
+        {% else %}
+          ["{{ item[0] }}", {{ item[1].nb_actions | default: 0 }}],
+        {% endif %}
+      {% endfor %}
+    ];
+
+    // Default options with customizable height
+    const defaultOptions = {
+      adapter: "highcharts",
+      prefix: "",
+      thousands: ",",
+      points: false,
+      colors: ["black"],
+      curve: true,
+      library: {
+        chart: {
+          height: height
+        },
+        plotOptions: {
+          series: {
+            animation: false,
+            lineWidth: height > 200 ? 4 : 3
+          }
+        },
+        yAxis: {
+          labels: {
+            style: {
+              fontSize: height > 200 ? "16px" : height > 150 ? "14px" : "12px",
+              color: "#000000"
+            }
+          },
+          gridLineDashStyle: "shortdot",
+          gridLineWidth: 1,
+          gridLineColor: "#000000",
+          tickAmount: height > 200 ? 5 : height > 150 ? 4 : 3
+        },
+        xAxis: {
+          type: "daytime",
+          labels: {
+            style: {
+              fontSize: height > 200 ? "16px" : height > 150 ? "14px" : "12px",
+              color: "#000000"
+            }
+          },
+          lineWidth: 0,
+          gridLineDashStyle: "dot",
+          tickWidth: 1,
+          tickLength: 0,
+          gridLineWidth: 1,
+          gridLineColor: "#000000",
+          tickPixelInterval: height > 200 ? 120 : height > 150 ? 100 : 80
+        }
+      }
+    };
+
+    // Merge custom options with defaults
+    const chartOptions = Object.assign({}, defaultOptions, options);
+
+    // Create the chart
+    var createChart = function() {
+      new Chartkick["LineChart"](chartId, data, chartOptions);
+    };
+
+    // Ensure chart loads before plugin render is generated
+    if ("Chartkick" in window) {
+      createChart();
+    } else {
+      window.addEventListener("chartkick:load", createChart, true);
+    }
+  }
+</script>
+
 {% assign date_range_labels = "last7:Last 7 days,last14:Last 14 days,last30:Last 30 days,last90:Last 90 days,lastWeek:Previous week,lastMonth:Previous month,lastYear:Previous year" | split: "," %}
 {% assign date_range_display = "" %}
 {% for mapping in date_range_labels %}
