@@ -1,5 +1,7 @@
 <!-- import Highcharts + Chartkick libraries -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartkick@5.0.1/dist/chartkick.min.js"></script>
 
 {% assign chart_id = "chart-" | append_random %}
@@ -15,7 +17,7 @@
     }
 
     // Build chart data dynamically from IDX_1 data
-    var data = [
+    var pageviewsData = [
       {% for item in IDX_1 %}
         {% if item[1] == empty %}
           ["{{ item[0] }}", 0],
@@ -25,24 +27,66 @@
       {% endfor %}
     ];
 
-    // Default options with customizable height
-    const defaultOptions = {
-      adapter: "highcharts",
-      prefix: "",
-      thousands: ",",
-      points: false,
-      colors: ["black"],
-      curve: true,
-      library: {
+    var visitorsData = [
+      {% for item in IDX_1 %}
+        {% if item[1] == empty %}
+          ["{{ item[0] }}", 0],
+        {% else %}
+          ["{{ item[0] }}", {{ item[1].nb_uniq_visitors | default: 0 }}],
+        {% endif %}
+      {% endfor %}
+    ];
+
+    var data = [
+      { name: "Pageviews", data: pageviewsData },
+      { name: "Unique Visitors", data: visitorsData }
+    ];
+
+    // Create the chart using native Highcharts for pattern fill support
+    var createChart = function() {
+      Highcharts.chart(chartId, {
         chart: {
-          height: height
+          type: "spline",
+          height: height,
+          animation: false,
+          spacing: [10, 10, 5, 10]
+        },
+        title: {
+          text: null
         },
         plotOptions: {
           series: {
             animation: false,
+            enableMouseTracking: false,
+            states: {
+              hover: { enabled: false }
+            },
+            marker: {
+              enabled: false
+            },
             lineWidth: height > 200 ? 4 : 3
           }
         },
+        series: [{
+          data: pageviewsData,
+          color: "#000000",
+          name: "Pageviews",
+          zIndex: 2
+        }, {
+          data: visitorsData,
+          name: "Unique Visitors",
+          zIndex: 1,
+          lineWidth: height > 200 ? 5 : 4,
+          color: {
+            pattern: {
+              image: "https://usetrmnl.com/images/grayscale/gray-5.png",
+              width: 12,
+              height: 12
+            }
+          }
+        }],
+        tooltip: { enabled: false },
+        legend: { enabled: false },
         yAxis: {
           labels: {
             style: {
@@ -53,10 +97,13 @@
           gridLineDashStyle: "shortdot",
           gridLineWidth: 1,
           gridLineColor: "#000000",
-          tickAmount: height > 200 ? 5 : height > 150 ? 4 : 3
+          tickAmount: height > 200 ? 5 : height > 150 ? 4 : 3,
+          title: {
+            text: null
+          }
         },
         xAxis: {
-          type: "daytime",
+          type: "datetime",
           labels: {
             style: {
               fontSize: height > 200 ? "16px" : height > 150 ? "14px" : "12px",
@@ -69,17 +116,15 @@
           tickLength: 0,
           gridLineWidth: 1,
           gridLineColor: "#000000",
-          tickPixelInterval: height > 200 ? 120 : height > 150 ? 100 : 80
+          tickPixelInterval: height > 200 ? 120 : height > 150 ? 100 : 80,
+          title: {
+            text: null
+          }
+        },
+        credits: {
+          enabled: false
         }
-      }
-    };
-
-    // Merge custom options with defaults
-    const chartOptions = Object.assign({}, defaultOptions, options);
-
-    // Create the chart
-    var createChart = function() {
-      new Chartkick["LineChart"](chartId, data, chartOptions);
+      });
     };
 
     // Ensure chart loads before plugin render is generated
