@@ -21,7 +21,7 @@ custom_fields:
   learn_more_url: https://matomo.org/
   email_address: stephen@yearg.in
 - keyname: matomo_api_key
-  field_type: string
+  field_type: password
   name: Matomo API Key
   description: User's API Key for Matomo
   placeholder: user_somelongstringoeshere
