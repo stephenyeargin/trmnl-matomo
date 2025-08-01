@@ -6,26 +6,28 @@
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'metrics' %}
 <div class="layout">
   <div class="grid grid--cols-4">
-    <div class="col col--span-1 grid grid--cols-2">
+    <div class="col col--span-1 grid grid--cols-2 gap--small">
       <div class="item">
         <div class="meta"></div>
         <div class="content">
+          <div class="w--14 h--1.5 mb--2 bg--black" style="border-radius: 20px;"></div>
           <span class="value value--small value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
-          <span class="label">Pageviews</span>
+          <span class="label label--small">Pageviews</span>
         </div>
       </div>
       <div class="item">
         <div class="meta"></div>
         <div class="content">
+          <div class="w--14 h--1.5 mb--2 bg--gray-5" style="border-radius: 20px;"></div>
           <span class="value value--small value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
-          <span class="label">Pageviews</span>
+          <span class="label label--small">Pageviews</span>
         </div>
       </div>
-        <div class="item">
+      <div class="item">
         <div class="meta"></div>
         <div class="content">
           <span class="value value--small value--tnums">{{ time_display }}</span>
-          <span class="label">Time on Site</span>
+          <span class="label label--small">Time on Site</span>
         </div>
       </div>
     </div>
