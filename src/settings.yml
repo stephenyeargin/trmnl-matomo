@@ -9,7 +9,7 @@ polling_url: |
   {{ matomo_base_url }}/?module=API&method=VisitsSummary.get&idSite={{ matomo_site_id }}&period=day&date={{ matomo_date_range }}&format=JSON
   {{ matomo_base_url }}/?module=API&method=SitesManager.getSiteFromId&idSite={{ matomo_site_id }}&format=JSON
   {{ matomo_base_url }}/?module=API&method=Actions.getPageUrls&flat=1&filter_sort_column=nb_hits&filter_sort_order=desc&idSite={{ matomo_site_id }}&period=range&date={{ matomo_date_range }}&format=JSON&filter_limit=20
-polling_headers: ''
+polling_headers: 'Content-Type=application/x-www-form-urlencoded'
 polling_body: token_auth={{ matomo_api_key }}
 id: 97234
 custom_fields:
