@@ -1,15 +1,21 @@
 <!-- import Highcharts + Chartkick libraries -->
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartkick@5.0.1/dist/chartkick.min.js"></script>
+<script src="https://trmnl.com/js/highcharts/12.3.0/highcharts.js"></script>
+<script src="https://trmnl.com/js/highcharts/12.3.0/highcharts-more.js"></script>
+<script src="https://trmnl.com/js/highcharts/12.3.0/pattern-fill.js"></script>
+<script src="https://trmnl.com/js/chartkick/5.0.1/chartkick.min.js"></script>
 
 {% assign chart_id = "chart-" | append_random %}
 
 <!-- Shared chart creation function -->
 <script>
-  function createMatomoChart(chartId, height, options = {}) {
+  function createMatomoChart(chartId, options = {}) {
     const rawData = {{ IDX_1 | json }};
+
+    console.log({ rawData: rawData })
+    if (!rawData || !Object.keys(rawData).length) {
+      document.getElementById(chartId).innerHTML = `<div class="py--20 text--center"><div class="title title--large lg:title--xlarge">No data.</div><div class="description">Please check your configuration and server status.</div></div>`;
+      return;
+    }
 
     if (rawData.result == 'error' && rawData.message) {
       document.getElementById(chartId).innerHTML = `<div class="title">Error</div><div class="description clamp--4">${rawData.message}</div>`;
@@ -47,7 +53,6 @@
       Highcharts.chart(chartId, {
         chart: {
           type: "spline",
-          height: height,
           animation: false,
           spacing: [10, 10, 5, 10]
         },
@@ -64,7 +69,7 @@
             marker: {
               enabled: false
             },
-            lineWidth: height > 200 ? 4 : 3
+            lineWidth: 4
           }
         },
         series: [{
@@ -76,7 +81,7 @@
           data: visitorsData,
           name: "Unique Visitors",
           zIndex: 1,
-          lineWidth: height > 200 ? 5 : 4,
+          lineWidth: 5,
           color: {
             pattern: {
               image: "https://usetrmnl.com/images/grayscale/gray-5.png",
@@ -90,14 +95,14 @@
         yAxis: {
           labels: {
             style: {
-              fontSize: height > 200 ? "16px" : height > 150 ? "14px" : "12px",
+              fontSize: "16px",
               color: "#000000"
             }
           },
           gridLineDashStyle: "shortdot",
           gridLineWidth: 1,
           gridLineColor: "#000000",
-          tickAmount: height > 200 ? 5 : height > 150 ? 4 : 3,
+          tickAmount: 5,
           title: {
             text: null
           }
@@ -106,7 +111,7 @@
           type: "datetime",
           labels: {
             style: {
-              fontSize: height > 200 ? "16px" : height > 150 ? "14px" : "12px",
+              fontSize: "16px",
               color: "#000000"
             }
           },
@@ -116,7 +121,7 @@
           tickLength: 0,
           gridLineWidth: 1,
           gridLineColor: "#000000",
-          tickPixelInterval: height > 200 ? 120 : height > 150 ? 100 : 80,
+          tickPixelInterval: 120,
           title: {
             text: null
           }

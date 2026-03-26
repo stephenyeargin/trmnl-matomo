@@ -10,33 +10,33 @@
       <div class="meta"></div>
       <div class="content">
         <div class="w--14 h--1.5 mb--2 bg--black" style="border-radius: 20px;"></div>
-        <span class="value value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
-        <span class="label">Pageviews</span>
+        <span class="value value--base lg:value--large  value--medium lg:value--large  value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
+        <span class="label label--base lg:label--large">Pageviews</span>
       </div>
     </div>
     <div class="item">
       <div class="meta"></div>
       <div class="content">
         <div class="w--14 h--1.5 mb--2 bg--gray-5" style="border-radius: 20px;"></div>
-        <span class="value value--tnums" data-value-format="true">{{ total_visitors | number_with_delimiter }}</span>
-        <span class="label">Visitors</span>
+        <span class="value value--base lg:value--large value--tnums" data-value-format="true">{{ total_visitors | number_with_delimiter }}</span>
+        <span class="label label--base lg:label--large">Visitors</span>
       </div>
     </div>
     <div class="item">
       <div class="meta"></div>
       <div class="content">
-        <span class="value value--tnums">{{ time_display }}</span>
-        <span class="label">Time on Site</span>
+        <span class="value value--base lg:value--large value--tnums">{{ time_display }}</span>
+        <span class="label label--base lg:label--large">Time on Site</span>
       </div>
     </div>
   </div>
 
-  <div id="{{ chart_id }}" class="w--full"></div>
+  <div id="{{ chart_id }}" class="w--full h--52 lg:h--96"></div>
 </div>
 
 <script>
   const chartId = {{ chart_id | json }};
-  createMatomoChart(chartId, 250);
+  createMatomoChart(chartId);
 </script>
 {% endif %}
 
@@ -49,11 +49,11 @@
 
 <div class="layout layout--col gap--space-between">
   <div class="text--center">
-    <div class="title title--small">Top Landing Pages</div>
-    <span class="description">{{ IDX_2.name }} &bull; {{ date_range_display }}</span>
+    <div class="title title--large lg:title--xlarge">Top Landing Pages</div>
+    <span class="description description--base lg:description--large">{{ date_range_display }}</span>
   </div>
 
-  <table class="table table--condensed">
+  <table class="table table--condensed" data-table-limit="true">
     <thead>
       <tr>
         <th class="text--left" style="width:55%"><span class="label label--small">Path</span></th>
@@ -62,11 +62,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for page in IDX_3.data limit: 10 %}
+      {% for page in IDX_3.data %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
-          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
-          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
         </tr>
       {% endfor %}
     </tbody>

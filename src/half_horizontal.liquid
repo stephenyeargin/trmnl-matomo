@@ -6,41 +6,41 @@
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'metrics' %}
 <div class="layout">
   <div class="grid grid--cols-4">
-    <div class="col col--span-1 grid grid--cols-2 gap--small">
+    <div class="col col--span-1 grid grid--cols-2 gap--small lg:gap--medium">
       <div class="item">
         <div class="meta"></div>
         <div class="content">
           <div class="w--14 h--1.5 mb--2 bg--black" style="border-radius: 20px;"></div>
-          <span class="value value--small value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
-          <span class="label label--small">Pageviews</span>
+          <span class="value value--small lg:value--base  value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
+          <span class="label label--small lg:label--large">Pageviews</span>
         </div>
       </div>
       <div class="item">
         <div class="meta"></div>
         <div class="content">
           <div class="w--14 h--1.5 mb--2 bg--gray-5" style="border-radius: 20px;"></div>
-          <span class="value value--small value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
-          <span class="label label--small">Pageviews</span>
+          <span class="value value--small lg:value--base value--tnums" data-value-format="true">{{ total_pageviews | number_with_delimiter }}</span>
+          <span class="label label--small lg:label--large">Pageviews</span>
         </div>
       </div>
       <div class="item">
         <div class="meta"></div>
         <div class="content">
-          <span class="value value--small value--tnums">{{ time_display }}</span>
-          <span class="label label--small">Time on Site</span>
+          <span class="value value--small lg:value--base  value--tnums">{{ time_display }}</span>
+          <span class="label label--small lg:label--large">Time on Site</span>
         </div>
       </div>
     </div>
 
-    <div class="col col--span-3">
-      <div id="{{ chart_id }}"></div>
+    <div class="col col--span-3 h">
+      <div id="{{ chart_id }}" class="h--48 lg:h--80"></div>
     </div>
   </div>
 </div>
 
 <script>
   const chartId = {{ chart_id | json }};
-  createMatomoChart(chartId, 170);
+  createMatomoChart(chartId);
 </script>
 {% endif %}
 
@@ -51,7 +51,7 @@
 %}
 {% if trmnl.plugin_settings.custom_fields_values.matomo_active_view == 'landing_pages' %}
 <div class="layout layout--col gap--space-between">
-  <table class="table table--condensed">
+  <table class="table table--condensed" data-table-limit="true">
     <thead>
       <tr>
         <th class="text--left" style="width:60%"><span class="title title--small">Path</span></th>
@@ -61,12 +61,12 @@
       </tr>
     </thead>
     <tbody>
-      {% for page in IDX_3.data limit: 5 %}
+      {% for page in IDX_3.data %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
-          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
-          <td class="text--right"><span class="value value--xxsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
-          <td class="text--right"><span class="value value--xxsmall">{{ page.bounce_rate }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall">{{ page.nb_hits | number_with_delimiter }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall">{{ page.nb_visits | number_with_delimiter }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall">{{ page.bounce_rate }}</span></td>
         </tr>
       {% endfor %}
     </tbody>
