@@ -18,6 +18,7 @@ custom_fields:
 - keyname: author_bio
   name: About This Plugin
   field_type: author_bio
+  category: analytics
   description: Displays web analytics from Matomo for a selected Site.
   github_url: https://github.com/stephenyeargin/trmnl-matomo
   learn_more_url: https://matomo.org/
