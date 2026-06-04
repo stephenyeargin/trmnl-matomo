@@ -10,9 +10,10 @@ watch:
 custom_fields: {
   matomo_base_url: "{{ env.MATOMO_BASE_URL }}",
   matomo_api_key: "{{ env.MATOMO_API_KEY }}",
-  matomo_site_id: "9",
-  matomo_date_range: "last30",
-  matomo_active_view: "metrics" # valid: metrics, landing_pages
+  matomo_site_id: "1",
+  matomo_date_range: "previous30", # valid: today, yesterday, last7, previous7, last14, previous14, last30, previous30, last90, previous90, lastWeek, lastMonth, lastYear
+  matomo_active_view: "metrics", # valid: metrics, landing_pages, top_referrers, top_countries
+  matomo_locale: en-US
 }
 
 # override variables
