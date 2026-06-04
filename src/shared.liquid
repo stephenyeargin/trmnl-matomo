@@ -5,11 +5,269 @@
 <script src="https://trmnl.com/js/chartkick/5.0.1/chartkick.min.js"></script>
 
 {% assign chart_id = "chart-" | append_random %}
+{% assign matomo_active_view = trmnl.plugin_settings.custom_fields_values.matomo_active_view %}
+{% assign matomo_locale = trmnl.plugin_settings.custom_fields_values.matomo_locale %}
+
+{% assign matomo_visits_series = IDX_0 %}
+{% assign matomo_site = IDX_1 %}
+{% assign matomo_landing_pages = IDX_2 %}
+{% assign matomo_referrers = IDX_3 %}
+{% assign matomo_countries = IDX_4 %}
+
+{% if matomo_site == blank and matomo_landing_pages == blank and data %}
+  {% assign matomo_visits_series = data[0] %}
+  {% assign matomo_site = data[1] %}
+  {% assign matomo_landing_pages = data[2] %}
+  {% assign matomo_referrers = data[3] %}
+  {% assign matomo_countries = data[4] %}
+{% endif %}
+
+{% assign matomo_site_name = matomo_site.name %}
+{% if matomo_site_name == blank and matomo_site[0] %}
+  {% assign matomo_site_name = matomo_site[0].name %}
+{% endif %}
+{% if matomo_site_name == blank %}
+  {% assign matomo_site_name = "Matomo" %}
+{% endif %}
+
+{% assign matomo_landing_pages_list = matomo_landing_pages %}
+{% if matomo_landing_pages.data %}
+  {% assign matomo_landing_pages_list = matomo_landing_pages.data %}
+{% endif %}
+
+{% assign matomo_referrers_list = matomo_referrers %}
+{% if matomo_referrers.data %}
+  {% assign matomo_referrers_list = matomo_referrers.data %}
+{% endif %}
+
+{% assign matomo_countries_list = matomo_countries %}
+{% if matomo_countries.data %}
+  {% assign matomo_countries_list = matomo_countries.data %}
+{% endif %}
+
+{% capture matomo_landing_pages_table %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="title title--small">Path</span></th>
+        <th class="text--right w--[15cqw]"><span class="title title--small">Pageviews</span></th>
+        <th class="text--right w--[15cqw]"><span class="title title--small">Visits</span></th>
+        <th class="text--right w--[15cqw]"><span class="title title--small">Bounce Rate</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for page in matomo_landing_pages_list %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ page.label }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ page.nb_hits }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ page.nb_visits }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall">{{ page.bounce_rate }}</span></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% capture matomo_referrers_table %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="title title--small">Source</span></th>
+        <th class="text--right"><span class="title title--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in matomo_referrers_list %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ row.label }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% capture matomo_countries_table %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="title title--small">Country</span></th>
+        <th class="text--right"><span class="title title--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in matomo_countries_list %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ row.label }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% assign matomo_compact_limit = 7 %}
+{% assign matomo_compact_path_truncate = 18 %}
+{% assign matomo_compact_landing_more = matomo_landing_pages_list | size | minus: matomo_compact_limit %}
+{% assign matomo_compact_ref_more = matomo_referrers_list | size | minus: matomo_compact_limit %}
+{% assign matomo_compact_country_more = matomo_countries_list | size | minus: matomo_compact_limit %}
+
+{% capture matomo_landing_pages_table_compact %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="label label--small">Path</span></th>
+        <th class="text--right w--[20cqw]"><span class="label label--small">Pageviews</span></th>
+        <th class="text--right w--[20cqw]"><span class="label label--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for page in matomo_landing_pages_list limit: matomo_compact_limit %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ page.label | truncate: matomo_compact_path_truncate }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ page.nb_hits }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ page.nb_visits }}</span></td>
+        </tr>
+      {% endfor %}
+      {% if matomo_compact_landing_more > 0 %}
+        <tr>
+          <td colspan="3" class="text--left"><span class="label label--small text--gray-45">and {{ matomo_compact_landing_more }} more</span></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% capture matomo_referrers_table_compact %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="label label--small">Source</span></th>
+        <th class="text--right"><span class="label label--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in matomo_referrers_list limit: matomo_compact_limit %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ row.label | truncate: 20 }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
+        </tr>
+      {% endfor %}
+      {% if matomo_compact_ref_more > 0 %}
+        <tr>
+          <td colspan="2" class="text--left"><span class="label label--small text--gray-45">and {{ matomo_compact_ref_more }} more</span></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% capture matomo_countries_table_compact %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="label label--small">Country</span></th>
+        <th class="text--right"><span class="label label--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in matomo_countries_list limit: matomo_compact_limit %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ row.label | truncate: 20 }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
+        </tr>
+      {% endfor %}
+      {% if matomo_compact_country_more > 0 %}
+        <tr>
+          <td colspan="2" class="text--left"><span class="label label--small text--gray-45">and {{ matomo_compact_country_more }} more</span></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% assign matomo_tiny_limit = 4 %}
+{% assign matomo_tiny_landing_more = matomo_landing_pages_list | size | minus: matomo_tiny_limit %}
+{% assign matomo_tiny_ref_more = matomo_referrers_list | size | minus: matomo_tiny_limit %}
+{% assign matomo_tiny_country_more = matomo_countries_list | size | minus: matomo_tiny_limit %}
+
+{% capture matomo_landing_pages_table_tiny %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="label label--small">Path</span></th>
+        <th class="text--right"><span class="label label--small">Views</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for page in matomo_landing_pages_list limit: matomo_tiny_limit %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ page.label | truncate: 16 }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ page.nb_hits }}</span></td>
+        </tr>
+      {% endfor %}
+      {% if matomo_tiny_landing_more > 0 %}
+        <tr>
+          <td colspan="2" class="text--left"><span class="label label--small text--gray-45">+{{ matomo_tiny_landing_more }} more</span></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% capture matomo_referrers_table_tiny %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="label label--small">Source</span></th>
+        <th class="text--right"><span class="label label--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in matomo_referrers_list limit: matomo_tiny_limit %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ row.label | truncate: 14 }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
+        </tr>
+      {% endfor %}
+      {% if matomo_tiny_ref_more > 0 %}
+        <tr>
+          <td colspan="2" class="text--left"><span class="label label--small text--gray-45">+{{ matomo_tiny_ref_more }} more</span></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endcapture %}
+
+{% capture matomo_countries_table_tiny %}
+  <table class="table table--condensed" data-table-limit="true">
+    <thead>
+      <tr>
+        <th class="text--left"><span class="label label--small">Country</span></th>
+        <th class="text--right"><span class="label label--small">Visits</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in matomo_countries_list limit: matomo_tiny_limit %}
+        <tr>
+          <td class="text--left"><span class="label label--small">{{ row.label | truncate: 14 }}</span></td>
+          <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
+        </tr>
+      {% endfor %}
+      {% if matomo_tiny_country_more > 0 %}
+        <tr>
+          <td colspan="2" class="text--left"><span class="label label--small text--gray-45">+{{ matomo_tiny_country_more }} more</span></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endcapture %}
 
 <!-- Shared chart creation function -->
 <script>
   function createMatomoChart(chartId, options = {}) {
-    const rawData = {{ IDX_1 | json }};
+    const rawData = {{ matomo_visits_series | json }};
+    const matomoLocale = {{ matomo_locale | json }};
 
     console.log({ rawData: rawData })
     if (!rawData || !Object.keys(rawData).length) {
@@ -22,35 +280,35 @@
       return;
     }
 
-    // Build chart data dynamically from IDX_1 data
-    var pageviewsData = [
-      {% for item in IDX_1 %}
-        {% if item[1] == empty %}
-          ["{{ item[0] }}", 0],
-        {% else %}
-          ["{{ item[0] }}", {{ item[1].nb_actions | default: 0 }}],
-        {% endif %}
-      {% endfor %}
-    ];
+    var pageviewsData = [];
+    var visitorsData = [];
 
-    var visitorsData = [
-      {% for item in IDX_1 %}
-        {% if item[1] == empty %}
-          ["{{ item[0] }}", 0],
-        {% else %}
-          ["{{ item[0] }}", {{ item[1].nb_uniq_visitors | default: 0 }}],
-        {% endif %}
-      {% endfor %}
-    ];
+    if (rawData && typeof rawData === "object" && !Array.isArray(rawData) && rawData.nb_actions !== undefined) {
+      var now = Date.now();
+      pageviewsData.push([now, rawData.nb_actions || 0]);
+      visitorsData.push([now, rawData.nb_uniq_visitors || rawData.nb_visits || 0]);
+    } else {
+      Object.entries(rawData || {}).forEach(function(entry, idx) {
+        var point = entry[1] || {};
+        var parsedTs = Date.parse(entry[0]);
+        var ts = Number.isNaN(parsedTs) ? (Date.now() + (idx * 1000)) : parsedTs;
+        pageviewsData.push([ts, point.nb_actions || 0]);
+        visitorsData.push([ts, point.nb_uniq_visitors || point.nb_visits || 0]);
+      });
+    }
 
     var data = [
       { name: "Pageviews", data: pageviewsData },
       { name: "Unique Visitors", data: visitorsData }
     ];
+    var singlePoint = pageviewsData.length <= 1;
 
     // Create the chart using native Highcharts for pattern fill support
     var createChart = function() {
       Highcharts.chart(chartId, {
+        lang: {
+          locale: matomoLocale || 'en-US'
+        },
         chart: {
           type: "spline",
           animation: false,
@@ -67,7 +325,8 @@
               hover: { enabled: false }
             },
             marker: {
-              enabled: false
+              enabled: singlePoint,
+              radius: singlePoint ? 4 : 0
             },
             lineWidth: 4
           }
@@ -141,7 +400,7 @@
   }
 </script>
 
-{% assign date_range_labels = "last7:Last 7 days,last14:Last 14 days,last30:Last 30 days,last90:Last 90 days,lastWeek:Previous week,lastMonth:Previous month,lastYear:Previous year" | split: "," %}
+{% assign date_range_labels = "today:Today,yesterday:Yesterday,last7:Last 7 days (including today),previous7:Last 7 days (excluding today),last14:Last 14 days (including today),previous14:Last 14 days (excluding today),last30:Last 30 days (including today),previous30:Last 30 days (excluding today),last90:Last 90 days (including today),previous90:Last 90 days (excluding today),lastWeek:Previous week,lastMonth:Previous month,lastYear:Previous year" | split: "," %}
 {% assign date_range_display = "" %}
 {% for mapping in date_range_labels %}
   {% assign pair = mapping | split: ":" %}
@@ -157,15 +416,22 @@
 {% assign total_time_length = 0 %}
 {% assign total_visits = 0 %}
 
-<!-- Loop through all dates in IDX_1 to calculate totals -->
-{% for item in IDX_1 %}
-  {% if item[1] != empty and item[1].nb_actions %}
-    {% assign total_pageviews = total_pageviews | plus: item[1].nb_actions %}
-    {% assign total_visitors = total_visitors | plus: item[1].nb_uniq_visitors %}
-    {% assign total_time_length = total_time_length | plus: item[1].sum_visit_length %}
-    {% assign total_visits = total_visits | plus: item[1].nb_visits %}
-  {% endif %}
-{% endfor %}
+<!-- Calculate totals from either a single summary object or day-series map -->
+{% if matomo_visits_series.nb_actions %}
+  {% assign total_pageviews = matomo_visits_series.nb_actions | default: 0 %}
+  {% assign total_visitors = matomo_visits_series.nb_uniq_visitors | default: matomo_visits_series.nb_visits | default: 0 %}
+  {% assign total_time_length = matomo_visits_series.sum_visit_length | default: 0 %}
+  {% assign total_visits = matomo_visits_series.nb_visits | default: 0 %}
+{% else %}
+  {% for item in matomo_visits_series %}
+    {% if item[1] != empty and item[1].nb_actions %}
+      {% assign total_pageviews = total_pageviews | plus: item[1].nb_actions %}
+      {% assign total_visitors = total_visitors | plus: item[1].nb_uniq_visitors %}
+      {% assign total_time_length = total_time_length | plus: item[1].sum_visit_length %}
+      {% assign total_visits = total_visits | plus: item[1].nb_visits %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
 
 {% assign avg_time_seconds = 0 %}
 {% assign time_display = "0s" %}
