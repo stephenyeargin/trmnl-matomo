@@ -1,6 +1,6 @@
 # Matomo Analytics for TRMNL
 
-[![Build and Deploy](https://github.com/stephenyeargin/trmnl-matomo/actions/workflows/build.yml/badge.svg)](https://github.com/stephenyeargin/trmnl-matomo/actions/workflows/build.yml)
+[![Build and Deploy](https://github.com/stephenyeargin/trmnl-matomo/actions/workflows/build.yml/badge.svg)](https://github.com/stephenyeargin/trmnl-matomo/actions/workflows/build.yml) [![TRMNL Recipe Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=97234)](https://trmnl.com/recipes/97234)
 
 ![promo](assets/promo.png)
 
