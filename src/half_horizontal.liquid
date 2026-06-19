@@ -83,7 +83,7 @@
 {% endif %}
 
 <div class="title_bar">
-  <img class="image image-stroke image-stroke--small" src="https://raw.githubusercontent.com/stephenyeargin/trmnl-matomo/refs/heads/main/assets/matomo.svg" width="28" height="28" />
+  <img class="image image-stroke--medium" src="data:image/svg+xml;base64,{{ logo_svg | base64_encode }}" />
   <span class="title">{{ matomo_site_name }}</span>
   <span class="instance">{{ trmnl.plugin_settings.instance_name | default: 'Analytics' }}</span>
 </div>

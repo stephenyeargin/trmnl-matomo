@@ -5,9 +5,8 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: post
 framework_version: latest
-serverless_language: 
-polling_url: |
-  {{ matomo_base_url }}/?module=API&method=API.getBulkRequest&format=JSON&urls[0]=method%3DVisitsSummary.get%26idSite%3D{{ matomo_site_id }}%26period%3Dday%26date%3D{{ matomo_date_range }}&urls[1]=method%3DSitesManager.getSiteFromId%26idSite%3D{{ matomo_site_id }}&urls[2]=method%3DActions.getPageUrls%26flat%3D1%26filter_sort_column%3Dnb_hits%26filter_sort_order%3Ddesc%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[3]=method%3DReferrers.getAll%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[4]=method%3DUserCountry.getCountry%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20
+serverless_language: node
+polling_url: "{{ matomo_base_url }}/?module=API&method=API.getBulkRequest&format=JSON&urls[0]=method%3DVisitsSummary.get%26idSite%3D{{ matomo_site_id }}%26period%3Dday%26date%3D{{ matomo_date_range }}&urls[1]=method%3DSitesManager.getSiteFromId%26idSite%3D{{ matomo_site_id }}&urls[2]=method%3DActions.getPageUrls%26flat%3D1%26filter_sort_column%3Dnb_hits%26filter_sort_order%3Ddesc%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[3]=method%3DReferrers.getAll%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[4]=method%3DUserCountry.getCountry%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20\n"
 polling_headers: Content-Type=application/x-www-form-urlencoded
 polling_body: token_auth={{ matomo_api_key }}
 id: 97234

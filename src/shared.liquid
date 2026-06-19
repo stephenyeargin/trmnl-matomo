@@ -14,36 +14,14 @@
 {% assign matomo_referrers = IDX_3 %}
 {% assign matomo_countries = IDX_4 %}
 
-{% if matomo_site == blank and matomo_landing_pages == blank and data %}
-  {% assign matomo_visits_series = data[0] %}
-  {% assign matomo_site = data[1] %}
-  {% assign matomo_landing_pages = data[2] %}
-  {% assign matomo_referrers = data[3] %}
-  {% assign matomo_countries = data[4] %}
-{% endif %}
-
 {% assign matomo_site_name = matomo_site.name %}
-{% if matomo_site_name == blank and matomo_site[0] %}
-  {% assign matomo_site_name = matomo_site[0].name %}
-{% endif %}
 {% if matomo_site_name == blank %}
   {% assign matomo_site_name = "Matomo" %}
 {% endif %}
 
 {% assign matomo_landing_pages_list = matomo_landing_pages %}
-{% if matomo_landing_pages.data %}
-  {% assign matomo_landing_pages_list = matomo_landing_pages.data %}
-{% endif %}
-
 {% assign matomo_referrers_list = matomo_referrers %}
-{% if matomo_referrers.data %}
-  {% assign matomo_referrers_list = matomo_referrers.data %}
-{% endif %}
-
 {% assign matomo_countries_list = matomo_countries %}
-{% if matomo_countries.data %}
-  {% assign matomo_countries_list = matomo_countries.data %}
-{% endif %}
 
 {% capture matomo_landing_pages_table %}
   <table class="table table--condensed" data-table-limit="true">
@@ -106,12 +84,6 @@
   </table>
 {% endcapture %}
 
-{% assign matomo_compact_limit = 7 %}
-{% assign matomo_compact_path_truncate = 18 %}
-{% assign matomo_compact_landing_more = matomo_landing_pages_list | size | minus: matomo_compact_limit %}
-{% assign matomo_compact_ref_more = matomo_referrers_list | size | minus: matomo_compact_limit %}
-{% assign matomo_compact_country_more = matomo_countries_list | size | minus: matomo_compact_limit %}
-
 {% capture matomo_landing_pages_table_compact %}
   <table class="table table--condensed" data-table-limit="true">
     <thead>
@@ -122,7 +94,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for page in matomo_landing_pages_list limit: matomo_compact_limit %}
+      {% for page in matomo_landing_pages_list %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ page.label | truncate: matomo_compact_path_truncate }}</span></td>
           <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ page.nb_hits }}</span></td>
@@ -147,7 +119,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in matomo_referrers_list limit: matomo_compact_limit %}
+      {% for row in matomo_referrers_list %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ row.label | truncate: 20 }}</span></td>
           <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
@@ -171,7 +143,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in matomo_countries_list limit: matomo_compact_limit %}
+      {% for row in matomo_countries_list %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ row.label | truncate: 20 }}</span></td>
           <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
@@ -186,11 +158,6 @@
   </table>
 {% endcapture %}
 
-{% assign matomo_tiny_limit = 4 %}
-{% assign matomo_tiny_landing_more = matomo_landing_pages_list | size | minus: matomo_tiny_limit %}
-{% assign matomo_tiny_ref_more = matomo_referrers_list | size | minus: matomo_tiny_limit %}
-{% assign matomo_tiny_country_more = matomo_countries_list | size | minus: matomo_tiny_limit %}
-
 {% capture matomo_landing_pages_table_tiny %}
   <table class="table table--condensed" data-table-limit="true">
     <thead>
@@ -200,7 +167,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for page in matomo_landing_pages_list limit: matomo_tiny_limit %}
+      {% for page in matomo_landing_pages_list %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ page.label | truncate: 16 }}</span></td>
           <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ page.nb_hits }}</span></td>
@@ -224,7 +191,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in matomo_referrers_list limit: matomo_tiny_limit %}
+      {% for row in matomo_referrers_list %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ row.label | truncate: 14 }}</span></td>
           <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
@@ -248,7 +215,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in matomo_countries_list limit: matomo_tiny_limit %}
+      {% for row in matomo_countries_list %}
         <tr>
           <td class="text--left"><span class="label label--small">{{ row.label | truncate: 14 }}</span></td>
           <td class="text--right"><span class="value value--xxsmall lg:value--xsmall" data-value-format="true" data-value-locale="{{ matomo_locale }}">{{ row.nb_visits }}</span></td>
@@ -451,3 +418,10 @@
   {% endif %}
 {% endif %}
 
+{%- capture logo_svg %}
+<svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.580271,0,0,0.580271,-3.09614,10.522)">
+        <path d="M133.164,56.949L113.954,23.596C105.493,7.782 80.536,10.706 75.697,27.803C62.377,-2.482 20.729,19.056 38.199,46.985C25.324,43.945 12.437,54.262 12.605,67.549C12.366,91.357 46.985,96.362 53.681,73.864C61.744,93.087 87.272,93.715 94.298,73.755C106.903,102.613 146.699,84.85 133.164,56.949ZM33.627,81.802C14.938,81.467 14.94,53.626 33.627,53.295C52.316,53.631 52.313,81.472 33.627,81.802ZM85.262,58.186C86,59.476 86.65,60.82 87.164,62.216C89.524,68.627 89.079,74.988 81.365,79.79C74.823,83.757 65.624,81.287 61.938,74.573L42.728,41.221C40.829,37.923 40.325,34.083 41.307,30.404C44.34,18.286 61.309,16.051 67.359,26.967C67.359,26.967 77.433,44.47 77.541,44.672L85.26,58.189L85.262,58.186ZM81.534,34.143C81.854,15.41 109.654,15.413 109.969,34.143C109.649,52.876 81.849,52.874 81.534,34.143ZM128.696,71.175C126.869,78.616 118.622,83.391 111.279,81.254C107.611,80.27 104.543,77.911 102.644,74.614C101.674,72.95 91.829,55.828 91.192,54.707C101.754,57.222 112.833,50.495 115.806,40.448L127.275,60.36C129.174,63.658 129.678,67.498 128.696,71.177L128.696,71.175Z" style="fill-rule:nonzero;"/>
+    </g>
+</svg>
+{%- endcapture %}
