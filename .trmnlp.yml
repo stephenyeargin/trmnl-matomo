@@ -12,8 +12,7 @@ custom_fields: {
   matomo_api_key: "{{ env.MATOMO_API_KEY }}",
   matomo_site_id: "1",
   matomo_date_range: "previous30", # valid: today, yesterday, last7, previous7, last14, previous14, last30, previous30, last90, previous90, lastWeek, lastMonth, lastYear
-  matomo_active_view: "metrics", # valid: metrics, landing_pages, top_referrers, top_countries
-  matomo_locale: en-US
+  matomo_active_view: "metrics" # valid: metrics, landing_pages, top_referrers, top_countries
 }
 
 # override variables
@@ -21,5 +20,8 @@ variables:
   trmnl: {
     plugin_settings: {
       instance_name: "Matomo Analytics"
+    },
+    user: {
+      locale: 'en-US'
     }
   }

@@ -6,7 +6,7 @@ static_data: ''
 polling_verb: post
 framework_version: latest
 serverless_language: node
-polling_url: "{{ matomo_base_url }}/?module=API&method=API.getBulkRequest&format=JSON&urls[0]=method%3DVisitsSummary.get%26idSite%3D{{ matomo_site_id }}%26period%3Dday%26date%3D{{ matomo_date_range }}&urls[1]=method%3DSitesManager.getSiteFromId%26idSite%3D{{ matomo_site_id }}&urls[2]=method%3DActions.getPageUrls%26flat%3D1%26filter_sort_column%3Dnb_hits%26filter_sort_order%3Ddesc%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[3]=method%3DReferrers.getAll%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[4]=method%3DUserCountry.getCountry%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20\n"
+polling_url: "{{ matomo_base_url }}/?module=API&method=API.getBulkRequest&format=JSON&urls[0]=method%3DVisitsSummary.get%26idSite%3D{{ matomo_site_id }}%26period%3Dday%26date%3D{{ matomo_date_range }}&urls[1]=method%3DSitesManager.getSiteFromId%26idSite%3D{{ matomo_site_id }}&urls[2]=method%3DActions.getPageUrls%26flat%3D1%26filter_sort_column%3Dnb_hits%26filter_sort_order%3Ddesc%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[3]=method%3DReferrers.getAll%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20&urls[4]=method%3DUserCountry.getCountry%26idSite%3D{{ matomo_site_id }}%26period%3Drange%26date%3D{{ matomo_date_range }}%26filter_limit%3D20"
 polling_headers: Content-Type=application/x-www-form-urlencoded
 polling_body: token_auth={{ matomo_api_key }}
 id: 97234
@@ -34,6 +34,16 @@ custom_fields:
   placeholder: '1'
   name: Site ID
   description: The integer ID of the desired site for reporting. <a href="https://matomo.org/faq/general/faq_19212/"  class="underline" target="_blank">Learn More</a>
+- keyname: matomo_active_view
+  field_type: select
+  name: View
+  description: Select what data you want to display
+  default: metrics
+  options:
+  - Metrics: metrics
+  - Top Landing Pages: landing_pages
+  - Top Referrers: top_referrers
+  - Top Countries: top_countries
 - keyname: matomo_date_range
   field_type: select
   name: Date Range
@@ -53,32 +63,5 @@ custom_fields:
   - Previous week: lastWeek
   - Previous month: lastMonth
   - Previous year: lastYear
-- keyname: matomo_active_view
-  field_type: select
-  name: View
-  description: Select what data you want to display
-  default: metrics
-  options:
-  - Metrics: metrics
-  - Top Landing Pages: landing_pages
-  - Top Referrers: top_referrers
-  - Top Countries: top_countries
-- keyname: matomo_locale
-  field_type: select
-  name: Locale
-  description: Sets how dates and numbers should be formatted
-  default: en-US
-  options:
-  - United States English (en-US): en-US
-  - Arabic (Saudi Arabia) (ar-SA): ar-SA
-  - British English (en-GB): en-GB
-  - Chinese Simplified (China) (zh-CN): zh-CN
-  - French (France) (fr-FR): fr-FR
-  - German (Germany) (de-DE): de-DE
-  - Hindi (India) (hi-IN): hi-IN
-  - Japanese (Japan) (ja-JP): ja-JP
-  - Portuguese (Brazil) (pt-BR): pt-BR
-  - Russian (Russia) (ru-RU): ru-RU
-  - Spanish (Spain) (es-ES): es-ES
 name: Matomo Analytics
 refresh_interval: 1440
