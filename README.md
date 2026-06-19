@@ -10,6 +10,10 @@
 
 ![screenshot-2](assets/screenshot-2.png)
 
+![screenshot-3](assets/screenshot-3.png)
+
+![screenshot-4](assets/screenshot-4.png)
+
 ## Development
 
 ### Releasing
