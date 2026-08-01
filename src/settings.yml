@@ -64,5 +64,5 @@ custom_fields:
   - Previous month: lastMonth
   - Previous year: lastYear
 name: Matomo Analytics
-description: Visitor and traffic stats from Matomo Analytics
+description: Website traffic & visitor stats
 refresh_interval: 1440
